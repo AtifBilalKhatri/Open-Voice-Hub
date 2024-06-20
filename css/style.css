@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Outfit", sans-serif;
+}
+.table-div{
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+.action-btn{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+}
+.delete-btn{
+background: #d83113;
+}
+.mark-btn{
+    background: #13d820;
+}
+.edit-btn{
+    background: #e1eb20;
+}
+.un-complete{
+    color: #d83113;
+}
+.complete{
+    color: #13d820;
+}
+.inp-field{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 16px;
+}
