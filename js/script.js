@@ -5,6 +5,7 @@ let taskTitle = document.getElementById("add-task-title");
 let taskStatus = document.getElementById("add-task-status");
 function appendRow(data, index) {
   let row = document.createElement("tr");
+  row.setAttribute("id", `data-row-${index}`);
   row.innerHTML = `
     <td>${data.id}</td>
                   <td class="title">${data.title}</td>
@@ -15,9 +16,7 @@ function appendRow(data, index) {
   }</span></td>
                   <td>
                     <div class="d-flex gap-1">
-                      <a href="javascript:void(0)" class="delete-btn action-btn" data-id='${
-                        data.id
-                      }'
+                      <a href="javascript:void(0)" class="delete-btn action-btn" data-id='data-row-${index}'
                       data-index=${index}
                         ><i class="fa-solid fa-trash"></i></a>
                       <a
@@ -26,7 +25,7 @@ function appendRow(data, index) {
                         data-bs-target="#exampleModal1"
                         href="javascript:void(0)"
                         class="edit-btn action-btn"
-                        data-id='${data.id}'
+                        data-id='data-row-${index}'
                         data-index='${index}'
                         ><i class="fa-solid fa-pencil"></i
                       ></a>
@@ -42,10 +41,10 @@ function appendRow(data, index) {
       item.addEventListener("click", function (e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        let indx = +this.getAttribute("data-index");
+        let id = this.getAttribute("data-id");
         let edit = document.getElementById("edit-btn");
-        edit.setAttribute("data-index", `${indx}`);
-        let target__row = tbody.querySelectorAll("tr")[indx];
+        edit.setAttribute("data-index", `${id}`);
+        let target__row = document.getElementById(`${id}`);
         let target__title = target__row.querySelector(".title");
         let target__status = target__row.querySelector(".status");
         //now edit fields
@@ -59,21 +58,22 @@ function appendRow(data, index) {
             : 0;
         editStatus.value = statusVal;
         edit.addEventListener("click", function (e) {
-          console.log("clicked");
-          if (editTitle != "") {
+          if (editTitle.value != "") {
             e.stopImmediatePropagation();
-            target__title.textContent = editTitle.value;
+            let itemId = this.getAttribute("data-index");
+            let editTr = document.getElementById(`${itemId}`);
+            let tr__title = editTr.querySelector(".title");
+            let tr__status = editTr.querySelector(".status");
+            tr__title.textContent = editTitle.value;
 
             if (editStatus.value == "1") {
-              target__status.innerHTML =
-                '<span class="complete">completed</span>';
+              tr__status.innerHTML = '<span class="complete">completed</span>';
             } else {
-              target__status.innerHTML =
+              tr__status.innerHTML =
                 '<span class="un-complete">un-completed</span>';
             }
             editTitle.value = "";
             editStatus.value = "0";
-            document.querySelector(".btn-close").click();
           } else {
             alert("enter complete data");
           }
@@ -85,8 +85,9 @@ function appendRow(data, index) {
   Array.from(delBtn).forEach((item) => {
     item.addEventListener("click", function (e) {
       e.stopImmediatePropagation();
-      index = +(this.getAttribute("data-index"));
-      tbody.querySelectorAll("tr")[index].remove()
+      id = this.getAttribute("data-id");
+      let elem = document.getElementById(id);
+      elem.remove();
     });
   });
 }
